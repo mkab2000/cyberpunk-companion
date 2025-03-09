@@ -85,7 +85,7 @@ const CharacterCreate = () => {
       <CompletionModal showModal={showModal} characterId={characterIdState} onClose={toggleModal} />
       
       <BottomBanner>
-        <button disabled={!isFinalStep} onClick={onClickSubmit}>Submit Character</button>
+        <StyledButton disabled={!isFinalStep} onClick={onClickSubmit}>Submit Character</StyledButton>
       </BottomBanner>
     </StyledWrapper>
   );
@@ -93,6 +93,7 @@ const CharacterCreate = () => {
 
 const StyledBanner = styled.div`
   background-color: red;
+  color: white;
   width: 100%;
   height: 50px;
   display: flex;
@@ -138,5 +139,17 @@ const StyledWrapper = styled.div`
   align-items: center;
   overflow: hidden;
 `;
+
+const StyledButton = styled.button`
+  background-color: red;
+  padding: 6px 12px;
+  border: 2px solid #ac1717;
+  border-radius: 6px;
+  
+  &:disabled {
+    filter: brightness(0.7);
+    cursor: not-allowed;
+  }
+`
 
 export default CharacterCreate;
