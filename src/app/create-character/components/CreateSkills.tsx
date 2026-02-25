@@ -27,7 +27,7 @@ const CreateStats = () => {
   };
 
   return (
-    <>
+    <StyledWrapper>
       <StyledTotalStatWrapper>
         Total skill points remaining: {totalSkillsRemaining}
       </StyledTotalStatWrapper>
@@ -48,7 +48,7 @@ const CreateStats = () => {
           />
         </StyledStatRow>
       ))}
-    </>
+    </StyledWrapper>
   )
 }
 
@@ -85,15 +85,19 @@ const IncrementSkill = ({ index, skillValue, skillPrice, updateSkill, totalSkill
   )
 }
 
+const StyledWrapper = styled.div`
+  width: 40%; 
+`;
+
 const StyledStatRow = styled.div`
-  width: 100%;
+  min-width: 260px;
+  margin: 6px 0;
   height: 50px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   user-select: none;
-
 `;
 
 const StyledStatIncrement = styled.div`
@@ -118,9 +122,10 @@ const StyledTotalStatWrapper = styled.div`
 const StyledSkill = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 
   p {
-    width: 200px;
+  width: 180px;
   }
 `
 export default CreateStats;

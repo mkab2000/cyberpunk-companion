@@ -1,3 +1,4 @@
+import { Colors } from "@/utils/colors";
 import { styled } from "styled-components";
 
 interface ButtonProps {
@@ -17,15 +18,18 @@ const IncrementButton = ({ onClick, disabled, text }: ButtonProps) => {
 };
 
 const StyledButton = styled.div<{ disabled: boolean }>`
-  width: 30px;
-  height: 30px;
-  background-color: ${props => (props.disabled ? "black" : "#e01b1b")};
-  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0 0 2px 2px;
+  background-color: ${props => (props.disabled ? Colors.gray300 : Colors.gray100)};
+  font-size: 28px;
   user-select: none;
   cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
-  text-align: center;
-  align-items: center;
-
+  border: 1px solid white;
+  border-radius: 4px;
   p {
     margin: 0;
     color: white;

@@ -1,3 +1,4 @@
+import { Colors } from "@/utils/colors";
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
 
@@ -52,7 +53,7 @@ const Overlay = styled.div`
 `;
 
 const ModalContent = styled.div`
-  background-color: aliceblue;
+  background-color: ${Colors.gray200};
   width: 600px;
   height: 200px;
   padding: 20px;

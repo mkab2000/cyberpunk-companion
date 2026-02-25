@@ -5,20 +5,24 @@ import styled from 'styled-components';
 import { storedCharacterData, storedCharacterId } from '@/store/store';
 import { Character } from '@/store/types';
 import CreateStats from './components/CreateStats';
-import CreateName from './components/CreateName';
-import { supabase } from '@/lib/supabase';
+import CreateLifepath from './components/CreateLifepath';
+// import { supabase } from '@/lib/supabase';
 import { useAtom, useSetAtom } from 'jotai';
 import CreateSkills from './components/CreateSkills';
 import CreateWeapons from './components/CreateWeapons';
 import { RESET } from 'jotai/utils';
-import CompletionModal from './components/CompletionModl';
+import CompletionModal from './components/CompletionModal';
 import { useRouter } from 'next/navigation';
 import CreateArmor from './components/CreateArmor';
+import { NavBarSelectorButton } from '@/styled-components/navBarSelectorButton';
+import { Colors } from '@/utils/colors';
+import { supabase } from '@/lib/supabase';
 
 type StepType = 1 | 2 | 3 | 4 | 5;
 const TOTAL_STEP = 5;
 
 const saveCharacter = async (character: Character) => {
+  console.log(character)
   const { data, error } = await supabase.from('characters').insert([character]).select('id');
   
   if (error) {
@@ -39,7 +43,7 @@ const CharacterCreate = () => {
 
   const StepComponent = useMemo(() => {
     const StepMap: Record<StepType, () => JSX.Element> = {
-      1: CreateName,
+      1: CreateLifepath,
       2: CreateStats,
       3: CreateSkills,
       4: CreateWeapons,
@@ -72,9 +76,9 @@ const CharacterCreate = () => {
     <StyledWrapper>
       <TopBanner>
         {["Bio", "Stats", "Skills", "Weapons", "Armor"].map((label, index) => (
-          <button key={index} onClick={() => setStep((index + 1) as StepType)}>
+          <NavBarSelectorButton key={index} onClick={() => setStep((index + 1) as StepType)} selected={step === (index + 1)}>
             {label}
-          </button>
+          </NavBarSelectorButton>
         ))}
       </TopBanner>
 
@@ -92,11 +96,14 @@ const CharacterCreate = () => {
 };
 
 const StyledBanner = styled.div`
-  background-color: red;
+  background-color: ${Colors.gray100};
   color: white;
   width: 100%;
   height: 50px;
   display: flex;
+  border-color: #ffffff;
+  border-top-width: 2px;
+  border-bottom-width: 2px;
   justify-content: center;
   align-items: center;
   gap: 12px;
@@ -116,10 +123,11 @@ const BottomBanner = styled(StyledBanner)`
 const StepContainer = styled.div`
   flex-grow: 1;
   overflow-y: auto;
-  width: 45%;
+  width: 100%;
   padding: 10px;
   margin-top: 50px;
   margin-bottom: 50px;
+  background-color: ${Colors.gray200};
   display: flex;
   flex-direction: column;
   align-items: center;

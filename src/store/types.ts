@@ -1,3 +1,12 @@
+import { 
+  WEAPON_DAMAGE_OPTIONS, 
+  WEAPON_STAT_OPTIONS, 
+  WEAPON_PENETRATION_OPTIONS,
+  WEAPON_QUALITY_OPTIONS,
+  WEAPON_SKILL_OPTIONS,
+  WEAPON_FIRERATE_OPTIONS 
+} from "@/store/constants";
+
 export enum PageTypes {
   Home = 'Home',
   CharacterCreate = 'CharacterCreate',
@@ -31,9 +40,18 @@ export interface RoleAbility {
   rank: number;
 }
 
+export interface LifePath {
+  name: string;
+  handle: string;
+  culture: string;
+  personality: string;
+  motivation: string;
+}
+
 export interface Character {
   id?: string;
   name: string;
+  lifepath: LifePath;
   stats: Record<string, Stat>;
   skills: Skill[];
   weapons: Weapon[];
@@ -43,16 +61,21 @@ export interface Character {
 
 export interface Weapon {
   name: string;
-  damage: 1 | 2 | 3 | 4 | 5 | 6 | 8;
-  stat: "DEX" | "REF";  
-  skillName: "Archery" | "Handgun" | "Shoulder Arms" | "Autofire" | "Heavy Weapons" | "Brawling" | "Martial Arts" | "Melee Weapons";
-  penetration: "None" | "Half";
-  excellentQuality: boolean;
-  rateOfFire: 1 | 2;
+  damage: typeof WEAPON_DAMAGE_OPTIONS[number];
+  stat: typeof WEAPON_STAT_OPTIONS[number];  
+  skillName: typeof WEAPON_SKILL_OPTIONS[number];
+  penetration: typeof WEAPON_PENETRATION_OPTIONS[number];
+  quality: typeof WEAPON_QUALITY_OPTIONS[number];
+  rateOfFire: typeof WEAPON_FIRERATE_OPTIONS[number];
 }
 
 export interface Armor {
   armorTotal: number;
   armorCurrent: number;
   penalty: number;
+}
+
+export interface RoomUser {
+  id: string; 
+  name: string;
 }

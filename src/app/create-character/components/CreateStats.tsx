@@ -4,6 +4,7 @@ import { baselineStats } from "@/store/constants";
 import { storedCharacterData } from "@/store/store";
 import { Stat } from "@/store/types";
 import IncrementButton from "./IncrementButton";
+import { Colors } from "@/utils/colors";
 
 interface StatsStates {
   [key: string]: Stat
@@ -40,7 +41,7 @@ const CreateStats = () => {
   };
 
   return (
-    <>
+    <StyledWrapper>
       <StyledTotalStatWrapper>
         Total stats remaining: {totalStatsRemaining}
       </StyledTotalStatWrapper>
@@ -58,7 +59,7 @@ const CreateStats = () => {
       ))}
       Total HP: { characterState.hp.total }
 
-    </>
+    </StyledWrapper>
   )
 }
 
@@ -94,16 +95,19 @@ const IncrementStat = ({ statKey, statValue, updateStat, totalStatsRemaining }: 
   )
 }
 
+const StyledWrapper = styled.div`
+  width: 40%; 
+`;
 
 const StyledStatRow = styled.div`
-  width: 100%;
+  min-width: 260px;
+  margin: 6px 0;
   height: 50px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   user-select: none;
-
 `;
 
 const StyledStatIncrement = styled.div`
@@ -115,8 +119,10 @@ const StyledStatIncrement = styled.div`
 
 const StyledStatWindow = styled.input`
   box-sizing: border-box;
+  background-color: ${Colors.gray100};
+  border: 1px solid white;
   resize: none;
-  width: 40px;
+  width: 60px;
   height: 40px;
   text-align: center;
 `;

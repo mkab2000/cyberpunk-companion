@@ -1,5 +1,15 @@
 import { Armor, Character, Skill, Stat, Weapon } from './types';
 
+export const WEAPON_DAMAGE_OPTIONS = [1, 2, 3, 4, 5, 6, 8];
+export const WEAPON_STAT_OPTIONS = ["DEX", "REF"];
+export const WEAPON_SKILL_OPTIONS = ["Archery", "Handgun", "Shoulder Arms", "Autofire", "Heavy Weapons", "Brawling", "Martial Arts", "Melee Weapons"];
+export const WEAPON_PENETRATION_OPTIONS = ["None", "Half"];
+export const WEAPON_QUALITY_OPTIONS = ["Standard", "Excellent", "Poor"];
+export const WEAPON_FIRERATE_OPTIONS = [1, 2];
+
+export const ARMOR_TOTAL_OPTIONS = [7, 9, 11, 12, 13, 15, 18];
+export const ARMOR_PENALTY = [0, 2, 4];
+
 export const baselineStats: Record<string, Stat> = {
   INT: {
     name: "Intelligence",
@@ -142,6 +152,7 @@ export const baselineSkills: Skill[] = [
   },
 ];
 
+
 export const baselineWeapons: Weapon[] = [
   {
     name: "Unarmed",
@@ -149,7 +160,7 @@ export const baselineWeapons: Weapon[] = [
     stat: "DEX",
     skillName: "Brawling",
     penetration: "None",
-    excellentQuality: false,
+    quality: "Standard",
     rateOfFire: 2,
   }
 ];
@@ -162,6 +173,13 @@ export const baselineArmor: Armor = {
 
 export const baselineCharacter: Character = {
   name: "",
+  lifepath: {
+    name: "",
+    handle: "",
+    culture: "",
+    personality: "",
+    motivation: "",
+  },
   stats: baselineStats,
   skills: baselineSkills,
   weapons: baselineWeapons,

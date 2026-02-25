@@ -105,7 +105,7 @@ const GmDisplay = ({
         <option value="">Select Target</option>
         {loadedCharacters.map((char) => (
           <option key={char.id} value={char.id}>
-            {char.name}
+            {char.lifepath.name}
           </option>
         ))}
       </select>
@@ -139,24 +139,24 @@ const GmDisplay = ({
         <div key={`gm+${character.id}`}>
           <CharacterRow>
             <div>
-              {character.name}
+              {character.lifepath.name}
             </div>
             <input value={initiativeModifiersState[index]} onChange={(e) => handleInitiativeChange(index, e)} />
             
             <StyledButton
               onClick={() =>
-                addCombatant(character.id!, character.name, initiativeModifiersState[index])
+                addCombatant(character.id!, character.lifepath.name, initiativeModifiersState[index])
               }
             >
               Set Initiative
             </StyledButton>
             
             <InitiativeRollButton
-              characterName={character.name}
+              characterName={character.lifepath.name}
               baseValue={character.stats.REF.baseValue}
               sendRoll={sendRoll}
               rollDice={rollDice}
-              onRoll={(result: number) => addCombatant(character.id!, character.name, result)}
+              onRoll={(result: number) => addCombatant(character.id!, character.lifepath.name, result)}
             />
 
             <StyledButton onClick={() =>

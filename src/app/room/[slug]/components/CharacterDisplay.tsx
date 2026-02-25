@@ -28,7 +28,7 @@ const CharacterDisplay = ({
   return (
     <StyledCharacterBox>
       <HpWrapper>
-        <div>Character: {character.name} </div>
+        <div>Character: {character.lifepath.name} </div>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <div>HP Status: </div>
           <HpArmorBar>{character.hp.current} / { character.hp.total }</HpArmorBar>
@@ -38,11 +38,11 @@ const CharacterDisplay = ({
           <HpArmorBar style={{backgroundColor:"gray"}}>{character.armor.armorCurrent} / { character.armor.armorTotal }</HpArmorBar>
         </div>
         <InitiativeRollButton
-          characterName={character.name}
+          characterName={character.lifepath.name}
           baseValue={character.stats.REF.baseValue}
           sendRoll={sendRoll}
           rollDice={rollDice}
-          onRoll={(result: number) => addCombatant(character.id!, character.name, result)}
+          onRoll={(result: number) => addCombatant(character.id!, character.lifepath.name, result)}
         />
       </HpWrapper>
       
@@ -55,7 +55,7 @@ const CharacterDisplay = ({
       <Box>
         {character.skills.map((skill) => (
           <SkillButton disabled={!sessionActive} key={skill.name} onClick={ () => {
-            rollAbility(character.name, skill, character.stats[skill.stat].baseValue)
+            rollAbility(character.lifepath.name, skill, character.stats[skill.stat].baseValue)
           }}>
             <SkillCell skill={skill} stats={ character.stats} />
           </SkillButton>
@@ -67,7 +67,7 @@ const CharacterDisplay = ({
           <WeaponButton disabled={!sessionActive} key={weapon.name} onClick={() => {
             rollAttack(
               {characterId: character.id!,
-              characterName: character.name,
+              characterName: character.lifepath.name,
               weapon: weapon,
               skillValue: character.skills.find(skill => skill.name === weapon.skillName)!.baseValue,
               statValue: character.stats[weapon.stat].baseValue}
@@ -100,10 +100,14 @@ const Box = styled.div`
 
 const HpArmorBar = styled.div`
   background-color: #bd0e0e;
-  width: 100px;
+  display: flex;
+  min-width: 100px;
   height: 35px;
-  font-size: 22px;
-  text-align: center;
+  font-size: 16px;
+  align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+  border-radius: 6px;
 `;
 
 const HpWrapper = styled.div`

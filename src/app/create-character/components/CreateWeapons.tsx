@@ -3,6 +3,18 @@ import { Weapon } from "@/store/types";
 import { useAtom } from "jotai";
 import { useState } from "react";
 import { styled } from "styled-components";
+import { Colors } from '@/utils/colors';
+import SelectBox from "@/styled-components/selectBox";
+import InputBox from "@/styled-components/inputBox";
+import { 
+  WEAPON_DAMAGE_OPTIONS, 
+  WEAPON_STAT_OPTIONS, 
+  WEAPON_PENETRATION_OPTIONS,
+  WEAPON_QUALITY_OPTIONS,
+  WEAPON_SKILL_OPTIONS,
+  WEAPON_FIRERATE_OPTIONS 
+} from "@/store/constants";
+
 
 const CreateWeapons = () => {
   const [characterState, setCharacterState] = useAtom(storedCharacterData);
@@ -14,21 +26,24 @@ const CreateWeapons = () => {
     stat: "DEX",
     skillName: "Brawling",
     penetration: "None",
-    excellentQuality: false,
+    quality: "Standard",
     rateOfFire: 1,
   });
 
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
-
+  const updateWeaponField = <K extends keyof Weapon>(name: K, value: string | number | boolean) => {
+    // Automatically parse numeric fields 
+    const parsedValue = (name === "damage" || name === "rateOfFire") && typeof value === "string" 
+      ? parseInt(value, 10) 
+      : value;
+  
     setNewWeapon((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
+      [name]: parsedValue as Weapon[K],
     }));
   };
-
+  
   const handleSubmit = () => {
     if (editingIndex !== null) {
       const updatedWeapons = [...characterState.weapons];
@@ -53,7 +68,7 @@ const CreateWeapons = () => {
       stat: "DEX",
       skillName: "Brawling",
       penetration: "None",
-      excellentQuality: false,
+      quality: "Standard",
       rateOfFire: 1,
     });
     setShowForm(false);
@@ -77,7 +92,7 @@ const CreateWeapons = () => {
       <h2>Weapons</h2>
 
       {characterState.weapons.map((weapon, index) => (
-        <StyledWeapon key={index}>
+        <StyledWeapon key={index} isEditing={editingIndex === index}>
           <span>{weapon.name}: {weapon.damage}d6 damage / {weapon.skillName}</span>
           <div>
             <button onClick={() => handleEdit(index)}>Edit</button>
@@ -86,61 +101,58 @@ const CreateWeapons = () => {
         </StyledWeapon>
       ))}
 
-      <button onClick={() => setShowForm(true)}>Add New Weapon</button>
+      <button onClick={() => setShowForm(true)}>{editingIndex !== null ? "Editing Weapon" : "Add New Weapon"}</button>
 
       {showForm && (
         <StyledForm>
-          <StyledLabel>
-            Weapon Name:
-            <input type="text" name="name" value={newWeapon.name} onChange={handleChange} placeholder="Weapon Name" />
-          </StyledLabel>
 
-          <StyledLabel>
-            Damage:
-            <select name="damage" value={newWeapon.damage} onChange={handleChange}>
-              {[1, 2, 3, 4, 5, 6, 8].map((val) => (
-                <option key={val} value={val}>{val}</option>
-              ))}
-            </select>
-          </StyledLabel>
+        <InputBox
+          label={"Weapon Name"}
+          value={newWeapon.name ?? ""}
+          onChange={(value) => updateWeaponField("name", value)}
+        />
 
-          <StyledLabel>
-            Stat:
-            <select name="stat" value={newWeapon.stat} onChange={handleChange}>
-              <option value="DEX">DEX</option>
-              <option value="REF">REF</option>
-            </select>
-          </StyledLabel>
+        <SelectBox
+          label={"Damage"}
+          value={newWeapon.damage}
+          onChange={(value) => updateWeaponField("damage", value)}
+          options={WEAPON_DAMAGE_OPTIONS}
+        />
 
-          <StyledLabel>
-            Skill:
-            <select name="skill" value={newWeapon.skillName} onChange={handleChange}>
-              {["Archery", "Handgun", "Shoulder Arms", "Autofire", "Heavy Weapons", "Brawling", "Martial Arts", "Melee Weapons"].map((skill) => (
-                <option key={skill} value={skill}>{skill}</option>
-              ))}
-            </select>
-          </StyledLabel>
+        <SelectBox
+          label={"Stat"}
+          value={newWeapon.stat}
+          onChange={(value) => updateWeaponField("stat", value)}
+          options={WEAPON_STAT_OPTIONS}
+        />
 
-          <StyledLabel>
-            Armor Piercing:
-            <select name="penetration" value={newWeapon.penetration} onChange={handleChange}>
-              <option value="None">None</option>
-              <option value="Half">Half</option>
-            </select>
-          </StyledLabel>
+        <SelectBox
+          label={"Skill"}
+          value={newWeapon.skillName}
+          onChange={(value) => updateWeaponField("skillName", value)}
+          options={WEAPON_SKILL_OPTIONS}
+        />
 
-          <StyledLabel>
-            Excellent Quality:
-            <input type="checkbox" name="excellentQuality" checked={newWeapon.excellentQuality} onChange={handleChange} />
-          </StyledLabel>
+        <SelectBox
+          label={"Penetration"}
+          value={newWeapon.penetration}
+          onChange={(value) => updateWeaponField("penetration", value)}
+          options={WEAPON_PENETRATION_OPTIONS}
+        />
 
-          <StyledLabel>
-            Rate of Fire:
-            <select name="rateOfFire" value={newWeapon.rateOfFire} onChange={handleChange}>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-            </select>
-          </StyledLabel>
+        <SelectBox
+          label={"Quality"}
+          value={newWeapon.quality}
+          onChange={(value) => updateWeaponField("quality", value)}
+          options={WEAPON_QUALITY_OPTIONS}
+        />
+
+        <SelectBox
+          label={"Rate of Fire"}
+          value={newWeapon.rateOfFire}
+          onChange={(value) => updateWeaponField("rateOfFire", value)}
+          options={WEAPON_FIRERATE_OPTIONS}
+        />
 
           <StyledSubmitButtons>
             <button onClick={handleSubmit}>{editingIndex !== null ? "Update Weapon" : "Add Weapon"}</button>
@@ -153,23 +165,30 @@ const CreateWeapons = () => {
 };
 
 const StyledWrapper = styled.div`
-  width: 100%;
+  width: 40%;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background-color: ${Colors.gray200};
+  padding: 8px;
 `;
 
-const StyledWeapon = styled.div`
+const StyledWeapon = styled.div<{ isEditing?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 6px;
   justify-content: space-between;
   align-items: center;
-  background-color: #ebe9e9;
+  background-color: ${Colors.gray100};
   padding: 10px;
-  border: 2px solid red;
+  border: 2px solid ${props => props.isEditing ? Colors.primary : "white"};
   border-radius: 5px;
+  transition: all 0.3s ease;
   
+  &:hover {
+    border: 2px solid ${Colors.primary};
+  }
+
   div {
     display: flex;
     flex-direction: row;
@@ -186,15 +205,25 @@ const StyledSubmitButtons = styled.div`
 const StyledForm = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  background-color: #ebe9e9;
-  padding: 10px;
+  align-items: normal;
+  gap: 24px;
+  background-color: ${Colors.gray200};
+  padding: 20px 0px;
   border-radius: 5px;
 `;
 
-const StyledLabel = styled.label`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`
+// const StyledLabel = styled.label`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   gap: 300px;
+//   min-height: 30px;
+// `;
+
+// const StyledSelect = styled.select`
+//   background-color: ${Colors.gray200};
+//   padding: 8px;
+//   min-width: 220px;
+// `;
+
 export default CreateWeapons;
