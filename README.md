@@ -1,13 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Glassdit - a Real-Time Message Board
 
-## Getting Started
+## Table of contents
 
-The deployment server is launched with
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+  - [Built with](#built-with)
+- [Author](#author)
 
-```bash
-npm run dev
-```
 
-Vercel Links:
-https://vercel.com/mkab2000s-projects/mkab-cyberpunk-companion/2BVd6YKZJmsjPj8zYRNqms314wzk
-https://mkab-cyberpunk-companion.vercel.app
+## Overview
+
+### The challenge
+
+Set goals for the application:
+
+- Create a prototype for a character creator for Cyberpunk Red Tabletop RPG.
+- Upload | Edit | Import characters.
+- Game rooms for players with real-time messaging and ability dice rolls, damage rolls, and application to characters.
+
+### Screenshot
+Desktop UI
+![](./screenshot1.png)
+
+
+### Links
+
+- Live Site URL: [Vercel](https://mkab-cyberpunk-companion.vercel.app)
+
+### Built with
+
+- React
+- React Query
+- Typescript
+- Supabase
+
+
+## Author
+
+- Website - [miraskab](https://miras-portfolio.vercel.app/)
